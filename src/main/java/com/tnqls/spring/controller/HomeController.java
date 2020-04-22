@@ -1,4 +1,4 @@
-package com.spring.board;
+package com.tnqls.spring.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -6,16 +6,22 @@ import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.tnqls.spring.service.TestService;
 
 /**
  * Handles requests for the application home page.
  */
 @Controller
 public class HomeController {
+	
+	@Autowired
+	TestService service;
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -37,7 +43,7 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
-	public String signup(Locale locale, Model model) {
+	public String getsignup(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		
 		Date date = new Date();
@@ -48,6 +54,12 @@ public class HomeController {
 		model.addAttribute("serverTime", formattedDate );
 		
 		return "signup";
+	}
+	
+	@RequestMapping(value = "/signup", method = RequestMethod.POST)
+	public String postsignup(Locale locale, Model model) {
+		logger.info("user sign up!");
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -62,6 +74,12 @@ public class HomeController {
 		model.addAttribute("serverTime", formattedDate );
 		
 		return "login";
+	}
+	
+	@RequestMapping(value = "/selectNow", method = RequestMethod.GET)
+	public void selectNow() {
+		String result = service.selectNow();
+		System.out.println(result);
 	}
 	
 }
