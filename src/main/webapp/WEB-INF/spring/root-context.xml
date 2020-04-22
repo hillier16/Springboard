@@ -13,7 +13,6 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
-	<!-- 자신의 PC(로컬)에 MySql을 설치했을 경우 -->
     <bean id="dataSource"
         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
@@ -35,6 +34,5 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.tnqls.spring" />
     </bean>
-
 
 </beans>

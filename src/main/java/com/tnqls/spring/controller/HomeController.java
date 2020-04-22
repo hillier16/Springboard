@@ -12,7 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.tnqls.spring.domain.User;
 import com.tnqls.spring.service.TestService;
+import com.tnqls.spring.service.UserService;
 
 /**
  * Handles requests for the application home page.
@@ -22,6 +24,8 @@ public class HomeController {
 	
 	@Autowired
 	TestService service;
+	@Autowired
+	UserService userService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -57,7 +61,9 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public String postsignup(Locale locale, Model model) {
+	public String postsignup(User user) {
+		
+		userService.createUser(user);
 		logger.info("user sign up!");
 		return "redirect:/";
 	}

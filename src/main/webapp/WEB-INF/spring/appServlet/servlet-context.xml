@@ -22,10 +22,5 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="com.tnqls.spring" />
-
-    <beans:bean id="testMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-      <beans:property name="mapperInterface" value="com.tnqls.spring.mapper.TestMapper" />
-      <beans:property name="sqlSessionFactory" ref="sqlSessionFactory" />
-    </beans:bean>
     
 </beans:beans>

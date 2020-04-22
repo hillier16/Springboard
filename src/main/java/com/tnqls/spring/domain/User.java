@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class User {
 	private String username;
-	private String id;
+	private String userid;
 	private String password;
 	private Date  generated_date;
 	
@@ -14,11 +14,11 @@ public class User {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String getId() {
-		return id;
+	public String getuserid() {
+		return userid;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setuserid(String userid) {
+		this.userid = userid;
 	}
 	public String getPassword() {
 		return password;

@@ -12,11 +12,11 @@
 <form action="" method="post">
 	<p>
 		<label for="userId">아이디</label>
-		<input type="text" id="userId" name="userId"/>
+		<input type="text" id="userId" name="userid"/>
 	</P>
 	<p>
 		<label for="userName">이름</label>
-		<input type="text" id="userName" name="userName"/>
+		<input type="text" id="userName" name="username"/>
 	</P>
 	<p>
 		<label for="password">비밀번호</label>
