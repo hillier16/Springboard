@@ -2,15 +2,21 @@ package com.tnqls.spring.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tnqls.spring.domain.User;
 import com.tnqls.spring.service.TestService;
@@ -86,6 +92,20 @@ public class HomeController {
 	public void selectNow() {
 		String result = service.selectNow();
 		System.out.println(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getUserById.do", method= RequestMethod.GET)
+	public String getUserById(@RequestParam String userid) {
+		logger.info(userid);
+		if (userid =="") {
+			return "-1";	
+		}
+		int result = 0;
+		User user = userService.getUserById(userid);
+		if(user!=null) result=1;
+		logger.info(Integer.toString(result));
+		return Integer.toString(result);
 	}
 	
 }

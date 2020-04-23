@@ -4,9 +4,22 @@
  
 <mapper namespace="com.tnqls.spring.mapper.UserMapper">
  
+ 
+<resultMap type="com.tnqls.spring.domain.User" id="userMap">
+	<id property="userid" column="id"/>
+	<result property="username" column="username"/>
+	<result property="password" column="password"/>
+	<result property="generated_date" column="generated_date"/>
+</resultMap>
+
  <!-- 회원가입  -->
     <insert id="createUser">
-        INSERT INTO user(id, username, password) VALUES(#{userid}, #{username},#{password})
+        INSERT INTO user(userid, username, password) VALUES(#{userid}, #{username},#{password})
     </insert>
-    
+     <!-- 회원가입 
+    <select id="getUserById" parameterType="string" resultType="com.tnqls.spring.domain.User">
+    	SELECT * FROM user
+    	WHERE userid = #{userid}
+    </select>
+      -->
 </mapper>

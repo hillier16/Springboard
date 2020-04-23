@@ -14,10 +14,10 @@ public class User {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String getuserid() {
+	public String getUserid() {
 		return userid;
 	}
-	public void setuserid(String userid) {
+	public void setUserid(String userid) {
 		this.userid = userid;
 	}
 	public String getPassword() {
