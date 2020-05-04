@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tnqls.spring.domain.User;
+import com.tnqls.spring.dto.UserDto;
 import com.tnqls.spring.service.TestService;
 import com.tnqls.spring.service.UserService;
 
@@ -44,9 +47,7 @@ public class HomeController {
 		
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
 		String formattedDate = dateFormat.format(date);
-		
 		model.addAttribute("serverTime", formattedDate );
 		
 		return "home";
@@ -54,21 +55,17 @@ public class HomeController {
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String getsignup(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
 		
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
 		String formattedDate = dateFormat.format(date);
-		
 		model.addAttribute("serverTime", formattedDate );
 		
 		return "signup";
 	}
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public String postsignup(User user) {
-		
+	public String postsignup(@ModelAttribute User user) {	
 		userService.createUser(user);
 		logger.info("user sign up!");
 		return "redirect:/";
@@ -76,17 +73,38 @@ public class HomeController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
 		
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
 		String formattedDate = dateFormat.format(date);
-		
 		model.addAttribute("serverTime", formattedDate );
 		
 		return "login";
 	}
+	
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String postlogin(HttpSession session, UserDto.LoginInfo user, Model model) {
+		if(session.getAttribute("login") != null) {
+			session.removeAttribute("login");
+		}
+		User loginuser = userService.loginCheck(user);
+		
+		if(loginuser!=null) {
+			session.setAttribute("login",loginuser);
+			logger.info("success login");
+			return "redirect:/main";
+		}
+		logger.info("fail login");
+		return "redirect:/login";	
+	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(HttpSession session) {
+		session.invalidate();
+		logger.info("ByeBye Logout success");
+		return "redirect:/";
+	}
+	
 	
 	@RequestMapping(value = "/selectNow", method = RequestMethod.GET)
 	public void selectNow() {
@@ -94,18 +112,17 @@ public class HomeController {
 		System.out.println(result);
 	}
 	
+	@RequestMapping(value = "/main", method = RequestMethod.GET)
+	public String main() {
+		
+		return "main";
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/getUserById.do", method= RequestMethod.GET)
 	public String getUserById(@RequestParam String userid) {
 		logger.info(userid);
-		if (userid =="") {
-			return "-1";	
-		}
-		int result = 0;
-		User user = userService.getUserById(userid);
-		if(user!=null) result=1;
-		logger.info(Integer.toString(result));
-		return Integer.toString(result);
+		return Integer.toString(userService.checkId(userid));
 	}
 	
 }

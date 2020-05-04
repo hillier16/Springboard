@@ -18,6 +18,9 @@
 	<logger name="com.tnqls.spring.controller">
         <level value="info" />
     </logger>
+    <logger name="com.tnqls.spring.interceptor">
+        <level value="info" />
+    </logger>
     
     <logger name="com.tnqls.spring.mapper.UserMapper">
         <level value="debug" />

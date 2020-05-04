@@ -4,22 +4,28 @@
  
 <mapper namespace="com.tnqls.spring.mapper.UserMapper">
  
- 
-<resultMap type="com.tnqls.spring.domain.User" id="userMap">
-	<id property="userid" column="id"/>
+<resultMap id="userMap" type="com.tnqls.spring.domain.User">
+	<result property="userid" column="id"/>
 	<result property="username" column="username"/>
 	<result property="password" column="password"/>
 	<result property="generated_date" column="generated_date"/>
 </resultMap>
+	
+
 
  <!-- 회원가입  -->
     <insert id="createUser">
-        INSERT INTO user(userid, username, password) VALUES(#{userid}, #{username},#{password})
+        INSERT INTO user(id, username, password) VALUES(#{userid}, #{username},#{password})
     </insert>
-     <!-- 회원가입 
-    <select id="getUserById" parameterType="string" resultType="com.tnqls.spring.domain.User">
+
+    <select id="getUserById" parameterType="string" resultMap="userMap">
     	SELECT * FROM user
-    	WHERE userid = #{userid}
+    	WHERE id = #{userid}
     </select>
-      -->
+    
+    <delete id="deleteUserAll">DELETE FROM user</delete>
+    
+    <select id="getUserCount" resultType="int">SELECT COUNT(*) FROM user</select>
+    
+
 </mapper>
